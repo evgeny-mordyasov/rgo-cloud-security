@@ -10,13 +10,60 @@
 
     <packaging>pom</packaging>
 
+    <modules>
+        <module>rgo-cloud-security-config</module>
+    </modules>
+
     <properties>
         <!-- system -->
         <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- system -->
+
+        <rgo-cloud-common.version>1.0-SNAPSHOT</rgo-cloud-common.version>
+
+        <!-- spring -->
+        <spring-boot.version>2.7.0</spring-boot.version>
+        <jjwt.version>0.9.1</jjwt.version>
+        <!-- spring -->
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- rgo-cloud -->
+            <dependency>
+                <groupId>ru.gold.ordance</groupId>
+                <artifactId>rgo-cloud-common-api</artifactId>
+                <version>${rgo-cloud-common.version}</version>
+            </dependency>
+            <!-- rgo-cloud -->
+
+            <!-- spring -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-webflux</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-security</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+            <!-- spring -->
+
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>

@@ -1,0 +1,59 @@
+package rgo.cloud.security.config;
+
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import rgo.cloud.security.config.jwt.JwtProvider;
+import rgo.cloud.security.config.jwt.properties.JwtProperties;
+import rgo.cloud.security.config.service.ClientDetailsService;
+
+@Configuration
+@ConfigurationPropertiesScan
+public class BeanConfig {
+
+    @Bean
+    public JwtProperties jwtProperties() {
+        return new JwtProperties();
+    }
+
+    @Bean
+    public JwtProvider jwtProvider(UserDetailsService service, JwtProperties properties) {
+        return new JwtProvider(service, properties);
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry
+                        .addMapping("/**")
+                        .allowedMethods("*")
+                        .allowedOrigins("http://localhost:5173")
+                        .allowCredentials(true);
+            }
+        };
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return new ClientDetailsService();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfiguration) throws Exception {
+        return authConfiguration.getAuthenticationManager();
+    }
+}
