@@ -11,6 +11,7 @@ import rgo.cloud.common.api.model.Role;
 import rgo.cloud.security.config.jwt.JwtConfigurer;
 import rgo.cloud.security.config.jwt.JwtProvider;
 import rgo.cloud.security.config.rule.RolePrivilege;
+import rgo.cloud.security.config.util.Endpoint;
 
 @Configuration
 @EnableWebSecurity
@@ -26,7 +27,14 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         configureBase(http);
         configureRequests(http);
-        http.apply(jwtConfigurer);
+
+        http
+                .apply(jwtConfigurer)
+                .and()
+                .logout(logout -> logout
+                        .logoutUrl(Endpoint.Authorization.BASE_URL + Endpoint.Authorization.LOGOUT)
+                        .logoutSuccessUrl(Endpoint.Authorization.BASE_URL)
+                        .invalidateHttpSession(true));
 
         return http.build();
     }

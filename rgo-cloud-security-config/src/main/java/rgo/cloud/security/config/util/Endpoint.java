@@ -9,6 +9,7 @@ public class Endpoint {
         public final static String BASE_URL = PREFIX_URL + "/authorizations";
 
         public static final String SIGN_IN = "/sign-in";
+        public static final String LOGOUT = "/logout";
         public static final String SIGN_UP = "/sign-up";
         public static final String CONFIRM_ACCOUNT = "/confirm-account";
         public static final String RESEND_TOKEN = "/resend-token";
