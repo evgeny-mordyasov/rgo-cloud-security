@@ -11,6 +11,7 @@ public class Endpoint {
         public static final String SIGN_IN = "/sign-in";
         public static final String SIGN_UP = "/sign-up";
         public static final String CONFIRM_ACCOUNT = "/confirm-account";
+        public static final String RESEND_TOKEN = "/resend-token";
     }
 
     public static final class Classification {
