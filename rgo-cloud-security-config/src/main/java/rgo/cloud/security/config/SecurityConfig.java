@@ -13,6 +13,9 @@ import rgo.cloud.security.config.jwt.JwtProvider;
 import rgo.cloud.security.config.rule.RolePrivilege;
 import rgo.cloud.security.config.util.Endpoint;
 
+import static rgo.cloud.security.config.util.ForbiddenHandler.accessDenied;
+import static rgo.cloud.security.config.util.ForbiddenHandler.authenticationEntryPoint;
+
 @Configuration
 @EnableWebSecurity
 @Import(BeanConfig.class)
@@ -30,6 +33,10 @@ public class SecurityConfig {
 
         http
                 .apply(jwtConfigurer)
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPoint)
+                .accessDeniedHandler(accessDenied)
                 .and()
                 .logout(logout -> logout
                         .logoutUrl(Endpoint.Authorization.BASE_URL + Endpoint.Authorization.LOGOUT)
