@@ -7,21 +7,7 @@ import java.util.List;
 import static rgo.cloud.security.config.rule.EndpointRule.*;
 
 public final class EndpointPermitConstant {
-    private static final List<EndpointRule> ANONYMOUS_RULES = List.of(
-            all(Endpoint.Authorization.BASE_URL + "/**"),
-            get(Endpoint.Classification.BASE_URL + "/**"),
-            get(Endpoint.File.BASE_URL + "/**"),
-            get(Endpoint.Language.BASE_URL + "/**"),
-            get(Endpoint.Me.BASE_URL + "/**"),
-            get(Endpoint.Client.BASE_URL)
-    );
-
-    private static final List<EndpointRule> CLIENT_RULES = List.of(
-            get(Endpoint.File.BASE_URL + Endpoint.File.RESOURCE)
-    );
-
     private static final List<EndpointRule> ADMIN_RULES = List.of(
-            all(Endpoint.Client.BASE_URL + "/**"),
             post(Endpoint.Classification.BASE_URL),
             post(Endpoint.File.BASE_URL),
             post(Endpoint.Language.BASE_URL),
@@ -33,18 +19,32 @@ public final class EndpointPermitConstant {
             delete(Endpoint.Language.BASE_URL)
     );
 
+    private static final List<EndpointRule> CLIENT_RULES = List.of(
+    );
+
+    private static final List<EndpointRule> ANONYMOUS_RULES = List.of(
+            all(Endpoint.Authorization.BASE_URL),
+            get(Endpoint.Classification.BASE_URL),
+            openGet(Endpoint.File.BASE_URL),
+            openGet(Endpoint.File.BASE_URL + Endpoint.File.DOCUMENT_ID_VARIABLE),
+            get(Endpoint.File.BASE_URL + Endpoint.File.FREE_LANGUAGES),
+            get(Endpoint.Language.BASE_URL),
+            get(Endpoint.Me.BASE_URL),
+            get(Endpoint.Client.BASE_URL)
+    );
+
     private EndpointPermitConstant() {
     }
 
-    public static EndpointPermit anonymous() {
-        return new EndpointPermit(ANONYMOUS_RULES, Role.ANONYMOUS);
+    public static EndpointPermit admin() {
+        return new EndpointPermit(ADMIN_RULES, Role.ADMIN);
     }
 
     public static EndpointPermit client() {
         return new EndpointPermit(CLIENT_RULES, Role.USER);
     }
 
-    public static EndpointPermit admin() {
-        return new EndpointPermit(ADMIN_RULES, Role.ADMIN);
+    public static EndpointPermit anonymous() {
+        return new EndpointPermit(ANONYMOUS_RULES, Role.ANONYMOUS);
     }
 }

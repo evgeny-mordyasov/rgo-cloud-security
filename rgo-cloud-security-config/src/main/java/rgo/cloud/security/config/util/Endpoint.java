@@ -1,9 +1,12 @@
 package rgo.cloud.security.config.util;
 
-public class Endpoint {
+public final class Endpoint {
     private final static String PREFIX_URL = "/api/v1";
 
     public final static String ENTITY_ID_VARIABLE = "/{entityId}";
+
+    private Endpoint() {
+    }
 
     public static final class Authorization {
         public final static String BASE_URL = PREFIX_URL + "/authorizations";
@@ -33,8 +36,7 @@ public class Endpoint {
         public final static String BASE_URL = PREFIX_URL + "/files";
 
         public final static String DOCUMENT_ID_VARIABLE = "/{documentId}";
-
-        public final static String RESOURCE = "/resource";
+        public final static String RESOURCE = "/resource/search";
         public final static String FREE_LANGUAGES = "/free-languages/{documentId}";
     }
 

@@ -7,9 +7,9 @@ import java.util.stream.Collectors;
 import static rgo.cloud.security.config.rule.EndpointPermitConstant.*;
 
 public enum RolePrivilege {
-    ANONYMOUS(anonymous()),
+    ADMIN(admin()),
     CLIENT(client()),
-    ADMIN(admin());
+    ANONYMOUS(anonymous());
 
     private final EndpointPermit endpointPermit;
 
@@ -19,7 +19,7 @@ public enum RolePrivilege {
 
     public static List<RolePrivilege> list() {
         return Arrays.stream(RolePrivilege.values())
-                .collect(Collectors.toList());
+                .collect(Collectors.toUnmodifiableList());
     }
 
     public EndpointPermit getEndpointPermit() {
