@@ -18,7 +18,7 @@ public class ClientDetailsService implements UserDetailsService {
 
     private ClientDetails findByMail(String mail) {
         WebClient webClient = WebClient.builder()
-                .baseUrl("http://auth-app:8090" + Endpoint.Client.BASE_URL)
+                .baseUrl("http://auth-app:8090" + Endpoint.Me.BASE_URL)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
 

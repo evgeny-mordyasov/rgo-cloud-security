@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 public class JwtProvider {
-    private final static String TOKEN_PREFIX = "Bearer_";
+    public final static String TOKEN_PREFIX = "Bearer_";
 
     private final UserDetailsService service;
     private final JwtProperties jwtProperties;
