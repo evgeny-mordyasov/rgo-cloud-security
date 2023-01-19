@@ -28,7 +28,7 @@ public class ClientDetailsService implements UserDetailsService {
                 .bodyToMono(ClientDetails.class)
                 .block();
 
-        if (response.getObject() == null) {
+        if (response == null || response.getObject() == null) {
             throw new EntityNotFoundException("Client by mail='" + mail + "' not found.");
         }
 
