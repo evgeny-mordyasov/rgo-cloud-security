@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 public class JwtProvider {
+    private final static ThreadLocal<UserDetails> CURRENT_USER = new ThreadLocal<>();
     private final UserDetailsService service;
     private final JwtProperties config;
 
@@ -36,7 +37,7 @@ public class JwtProvider {
         return new Date(date.getTime() + config.getExpirationHours() * 3600000L);
     }
 
-    public String getToken(HttpServletRequest request) {
+    String getToken(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
 
         if (cookies != null) {
@@ -50,8 +51,9 @@ public class JwtProvider {
         return null;
     }
 
-    public Authentication getAuthentication(String token) {
-        UserDetails userDetails = service.loadUserByUsername(getUsername(token));
+    Authentication getAuthentication(String token) {
+        UserDetails userDetails = CURRENT_USER.get();
+        CURRENT_USER.remove();
         return new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
     }
 
@@ -63,10 +65,11 @@ public class JwtProvider {
                 .getSubject();
     }
 
-    public boolean tokenIsValid(String token) {
+    boolean tokenIsValid(String token) {
         try {
-            return service.loadUserByUsername(getUsername(token))
-                    .isEnabled();
+            UserDetails user = service.loadUserByUsername(getUsername(token));
+            CURRENT_USER.set(user);
+            return user.isEnabled();
         } catch (Exception ignored) {
             return false;
         }
