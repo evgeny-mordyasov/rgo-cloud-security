@@ -8,18 +8,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import rgo.cloud.security.config.jwt.properties.JwtProperties;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 public class JwtProvider {
-    public final static String TOKEN_PREFIX = "Bearer_";
-
     private final UserDetailsService service;
-    private final JwtProperties jwtProperties;
+    private final JwtProperties config;
 
-    public JwtProvider(UserDetailsService service, JwtProperties jwtProperties) {
+    public JwtProvider(UserDetailsService service, JwtProperties config) {
         this.service = service;
-        this.jwtProperties = jwtProperties;
+        this.config = config;
     }
 
     public String createToken(String mail) {
@@ -29,19 +28,23 @@ public class JwtProvider {
                 .setClaims(Jwts.claims().setSubject(mail))
                 .setIssuedAt(currentDate)
                 .setExpiration(getExpirationDate(currentDate))
-                .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecret())
+                .signWith(SignatureAlgorithm.HS256, config.getSecret())
                 .compact();
     }
 
     private Date getExpirationDate(Date date) {
-        return new Date(date.getTime() + jwtProperties.getExpirationHours() * 3600000);
+        return new Date(date.getTime() + config.getExpirationHours() * 3600000L);
     }
 
     public String getToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
+        Cookie[] cookies = request.getCookies();
 
-        if (bearerToken != null && bearerToken.startsWith(TOKEN_PREFIX)) {
-            return bearerToken.substring(TOKEN_PREFIX.length());
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals(config.getAuthCookieName())) {
+                    return cookie.getValue();
+                }
+            }
         }
 
         return null;
@@ -49,12 +52,12 @@ public class JwtProvider {
 
     public Authentication getAuthentication(String token) {
         UserDetails userDetails = service.loadUserByUsername(getUsername(token));
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
     }
 
     private String getUsername(String token) {
         return Jwts.parser()
-                .setSigningKey(jwtProperties.getSecret())
+                .setSigningKey(config.getSecret())
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();

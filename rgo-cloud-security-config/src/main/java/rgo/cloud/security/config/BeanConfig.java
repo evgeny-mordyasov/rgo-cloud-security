@@ -21,11 +21,6 @@ import rgo.cloud.security.config.service.ClientDetailsServiceStub;
 public class BeanConfig {
 
     @Bean
-    public JwtProperties jwtProperties() {
-        return new JwtProperties();
-    }
-
-    @Bean
     public JwtProvider jwtProvider(UserDetailsService service, JwtProperties properties) {
         return new JwtProvider(service, properties);
     }

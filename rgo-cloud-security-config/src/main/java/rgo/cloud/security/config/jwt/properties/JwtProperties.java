@@ -1,19 +1,36 @@
 package rgo.cloud.security.config.jwt.properties;
 
-public class JwtProperties {
-    private final String secret;
-    private final Long expirationHours;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.ConstructorBinding;
 
-    public JwtProperties() {
-        this.secret = "ru.gold.ordance";
-        this.expirationHours =  168L;
+@ConstructorBinding
+@ConfigurationProperties(prefix = "module-properties.auth.cookie")
+public class JwtProperties {
+    private final String authCookieName;
+    private final String path;
+    private final int expirationHours;
+    private final String secret;
+
+    public JwtProperties(String authCookieName, String path, int expirationHours, String secret) {
+        this.authCookieName = authCookieName;
+        this.path = path;
+        this.expirationHours = expirationHours;
+        this.secret = secret;
+    }
+
+    public String getAuthCookieName() {
+        return authCookieName;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public int getExpirationHours() {
+        return expirationHours;
     }
 
     public String getSecret() {
         return secret;
-    }
-
-    public Long getExpirationHours() {
-        return expirationHours;
     }
 }
