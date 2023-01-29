@@ -11,7 +11,6 @@ import rgo.cloud.common.api.model.Role;
 import rgo.cloud.security.config.jwt.JwtConfigurer;
 import rgo.cloud.security.config.jwt.JwtProvider;
 import rgo.cloud.security.config.rule.RolePrivilege;
-import rgo.cloud.security.config.util.Endpoint;
 
 import static rgo.cloud.security.config.util.ForbiddenHandler.accessDenied;
 import static rgo.cloud.security.config.util.ForbiddenHandler.authenticationEntryPoint;
@@ -36,12 +35,7 @@ public class SecurityConfig {
                 .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(authenticationEntryPoint)
-                .accessDeniedHandler(accessDenied)
-                .and()
-                .logout(logout -> logout
-                        .logoutUrl(Endpoint.Authorization.BASE_URL + Endpoint.Authorization.LOGOUT)
-                        .logoutSuccessUrl(Endpoint.Authorization.BASE_URL)
-                        .invalidateHttpSession(true));
+                .accessDeniedHandler(accessDenied);
 
         return http.build();
     }
