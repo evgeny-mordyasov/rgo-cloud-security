@@ -35,7 +35,7 @@
             <!-- rgo-cloud -->
             <dependency>
                 <groupId>ru.gold.ordance</groupId>
-                <artifactId>rgo-cloud-common-api</artifactId>
+                <artifactId>rgo-cloud-common-spring</artifactId>
                 <version>${rgo-cloud-common.version}</version>
             </dependency>
             <!-- rgo-cloud -->
