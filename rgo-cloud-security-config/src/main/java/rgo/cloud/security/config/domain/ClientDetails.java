@@ -43,22 +43,22 @@ public class ClientDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return object.isActive;
+        return object.isVerified;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return object.isActive;
+        return object.isVerified;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return object.isActive;
+        return object.isVerified;
     }
 
     @Override
     public boolean isEnabled() {
-        return object.isActive;
+        return object.isVerified;
     }
 
     public static class Client {
@@ -66,14 +66,14 @@ public class ClientDetails implements UserDetails {
         private String mail;
         private String password;
         private Role role;
-        private boolean isActive;
+        private boolean isVerified;
 
-        public Client(Long entityId, String mail, String password, Role role, boolean isActive) {
+        public Client(Long entityId, String mail, String password, Role role, boolean isVerified) {
             this.entityId = entityId;
             this.mail = mail;
             this.password = password;
             this.role = role;
-            this.isActive = isActive;
+            this.isVerified = isVerified;
         }
 
         public Client() {
@@ -111,12 +111,12 @@ public class ClientDetails implements UserDetails {
             this.role = role;
         }
 
-        public boolean isActive() {
-            return isActive;
+        public boolean isVerified() {
+            return isVerified;
         }
 
-        public void setActive(boolean active) {
-            isActive = active;
+        public void setVerified(boolean verified) {
+            isVerified = verified;
         }
     }
 }
