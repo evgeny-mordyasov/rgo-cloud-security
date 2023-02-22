@@ -39,6 +39,7 @@ public final class Endpoint {
         public final static String DOCUMENT_ID_VARIABLE = "/{documentId}";
         public final static String RESOURCE = "/resource/search";
         public final static String FREE_LANGUAGES = "/free-languages/{documentId}";
+        public final static String UPDATE_NAME = "/update-name";
     }
 
     public static final class Language {
