@@ -24,6 +24,8 @@ public final class EndpointPermitConstant {
 
     private static final List<EndpointRule> ANONYMOUS_RULES = List.of(
             all(Endpoint.Authorization.BASE_URL),
+            get(Endpoint.SWAGGER_UI),
+            get(Endpoint.API_DOCS),
             get(Endpoint.Classification.BASE_URL),
             openGet(Endpoint.File.BASE_URL),
             openGet(Endpoint.File.BASE_URL + Endpoint.File.DOCUMENT_ID_VARIABLE),

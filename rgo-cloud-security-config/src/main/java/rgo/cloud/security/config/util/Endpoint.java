@@ -5,6 +5,9 @@ public final class Endpoint {
 
     public final static String ENTITY_ID_VARIABLE = "/{entityId}";
 
+    public final static String SWAGGER_UI = "/swagger-ui";
+    public final static String API_DOCS = "/v3/api-docs";
+
     private Endpoint() {
     }
 
