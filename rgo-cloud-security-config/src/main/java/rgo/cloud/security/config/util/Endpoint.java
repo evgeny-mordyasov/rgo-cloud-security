@@ -18,7 +18,7 @@ public final class Endpoint {
         public static final String LOGOUT = "/logout";
         public static final String SIGN_UP = "/sign-up";
         public static final String CONFIRM_ACCOUNT = "/confirm-account";
-        public static final String RESEND_TOKEN = "/resend-token";
+        public static final String SEND_TOKEN = "/send-token";
         public static final String RESET_PASSWORD = "/reset-password";
     }
 
